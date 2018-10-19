@@ -1072,7 +1072,10 @@ excluding Oceania countries.
           color='Population') + # add labels to axis, title, legend
           theme(strip.background = element_rect(fill = "yellow"),
               legend.position = "none") # title header bg color, leave out legend
+           
+    print(plotly_prep)
 
+![](hw-05_gapminder_files/figure-markdown_strict/Figure%206.%20Scatterplot%20of%20Life%20Expectancy%20(in%20Years)%20vs.%20GDP%20per%20capita,%20by%20Continent,%20-1.png)
 <br/>
 
 Lastly, we will run a scatterplot for all countries into one through the
