@@ -177,9 +177,8 @@ gm_Europe_2007 %>%
 
 This looks much better, and it allows us to follow countries with increasing population. At the same time, we can quickly spot out countries with the lowest/highest populations. To make it even easier to read, we can do a horizontal bar chart listing populations from lowest population to highest,
 
-```{r, Figure  3. Re-ordered bar chart of European country vs population in 2007}
-# Create bar chart with lowest to highest population in Europe, 2007
-bar_low_high_pop <- gm_Europe_2007 %>%
+```{r, Figure 3. Bar chart for increasing population of European countries in 2007}
+gm_Europe_2007 %>%
     mutate(country = fct_reorder(country, pop)) %>% # bars are from lowest to highest pop
     ggplot(aes(country,pop)) + 
     geom_bar(aes(fill=country),  stat="identity") + # fill countries by different colours
@@ -187,8 +186,6 @@ bar_low_high_pop <- gm_Europe_2007 %>%
     theme_bw() + # give the graph a white background
     labs(x = "Population", y = "Country", # add labels
         title = "Barchart by Increasing Population by European Countries")
-
-print(bar_low_high_pop)
 ```
 <br/>
 

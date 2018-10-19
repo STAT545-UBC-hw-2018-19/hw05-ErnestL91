@@ -258,8 +258,7 @@ countries with the lowest/highest populations. To make it even easier to
 read, we can do a horizontal bar chart listing populations from lowest
 population to highest,
 
-    # Create bar chart with lowest to highest population in Europe, 2007
-    bar_low_high_pop <- gm_Europe_2007 %>%
+    gm_Europe_2007 %>%
         mutate(country = fct_reorder(country, pop)) %>% # bars are from lowest to highest pop
         ggplot(aes(country,pop)) + 
         geom_bar(aes(fill=country),  stat="identity") + # fill countries by different colours
@@ -268,9 +267,7 @@ population to highest,
         labs(x = "Population", y = "Country", # add labels
             title = "Barchart by Increasing Population by European Countries")
 
-    print(bar_low_high_pop)
-
-![](hw-05_gapminder_files/figure-markdown_strict/Figure%203.%20Re-ordered%20bar%20chart%20of%20European%20country%20vs%20population%20in%202007-1.png)
+![](hw-05_gapminder_files/figure-markdown_strict/Figure%203.%20Bar%20chart%20for%20increasing%20population%20of%20European%20countries%20in%202007-1.png)
 <br/>
 
 Now lets say we are interested in France in particular, and want to
