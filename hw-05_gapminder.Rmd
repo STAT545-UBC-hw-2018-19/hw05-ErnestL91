@@ -179,7 +179,7 @@ This looks much better, and it allows us to follow countries with increasing pop
 
 ```{r, Figure  3. Re-ordered bar chart of European country vs population in 2007}
 # Create bar chart with lowest to highest population in Europe, 2007
-gm_Europe_2007 %>%
+bar_low_high_pop <- gm_Europe_2007 %>%
     mutate(country = fct_reorder(country, pop)) %>% # bars are from lowest to highest pop
     ggplot(aes(country,pop)) + 
     geom_bar(aes(fill=country),  stat="identity") + # fill countries by different colours
@@ -187,6 +187,8 @@ gm_Europe_2007 %>%
     theme_bw() + # give the graph a white background
     labs(x = "Population", y = "Country", # add labels
         title = "Barchart by Increasing Population by European Countries")
+
+print(bar_low_high_pop)
 ```
 <br/>
 
@@ -311,7 +313,7 @@ plotly_prep <- ggplot(gm_filter_O, aes(gdpPercap, lifeExp)) +
       theme(strip.background = element_rect(fill = "yellow"),
           legend.position = "none") # title header bg color, leave out legend
        
-
+print(plotly_prep)
 ```
 <br/>
 
