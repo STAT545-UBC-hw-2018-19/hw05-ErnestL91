@@ -11,9 +11,9 @@ This repository contains the the project file, R-markdown file, github markdown 
 
 **2)** Part 2: File I/O
 
-[**.csv via write_csv()**](https://github.com/STAT545-UBC-students/hw05-ErnestL91/blob/master/gm_reorder_write.csv)
+[**.csv file via write_csv()**](https://github.com/STAT545-UBC-students/hw05-ErnestL91/blob/master/gm_reorder_write.csv)
 
-[**.csv via saveRDS()**](https://github.com/STAT545-UBC-students/hw05-ErnestL91/blob/master/gm_reorder_save.csv)
+[**.csv file via saveRDS()**](https://github.com/STAT545-UBC-students/hw05-ErnestL91/blob/master/gm_reorder_save.csv?raw=true)
 
 **3)** Part 3: Visualization Design
 **Image files used:** [**Figure 5**](https://github.com/STAT545-UBC-students/hw05-ErnestL91/blob/master/hw-05_gapminder_files/figure-markdown_strict/Figure%205.%20Increasing%20Population%20of%20European%20Countries%20in%202007-1.png), [**Figure 6**](https://github.com/STAT545-UBC-students/hw05-ErnestL91/blob/master/hw-05_gapminder_files/figure-markdown_strict/Figure%206.%20Scatterplot%20of%20Life%20Expectancy%20(in%20Years)%20vs.%20GDP%20per%20capita%2C%20by%20Continent-1.png)
