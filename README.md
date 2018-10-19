@@ -2,7 +2,7 @@
 
 This repository contains the the project file, R-markdown file, github markdown file, html file, .csv excel files, .svg/.jpg image file for whole report, and the folder containing the images for the markdown file. For more details on the assignment, please click [**here**](http://stat545.com/Classroom/assignments/hw05/hw05.html). 
 
-**For plotly graph, please view the [.html version](https://ernestl91.github.io/HW-05/hw-05_gapminder.html) of the .Rmd file - this grahpic cannot render on github .md**
+**For plotly graph, please view the [.html version](https://ernestl91.github.io/HW-05/hw-05_gapminder.html) of the .Rmd file - this graphic cannot render on github .md**
 
 **The markdown file explores the following:**
 
