@@ -157,7 +157,8 @@ gm_Europe_2007 %>%
     geom_point(aes(colour=country)) + # fill unique countries by different colours 
     theme_bw() + # give the graph a white background
     labs(x = "Population", y = "Country", # add labels
-        title = "Scatterplot for Population by European Countries, in 2007")
+        title = "Scatterplot for Population by European Countries, in 2007",
+        caption = "Figure 1. Scatterplot of European country vs population in 2007")
 
 ```
 <br/>
@@ -171,7 +172,8 @@ Now this graph looks very uninformative, as the points are all over the place. R
 gm_Europe_2007 %>%
     mutate(country = fct_reorder(country, pop)) %>% # points are from lowest to highest pop
     ggplot(aes(pop, country)) + 
-    geom_point(aes(colour=country)) # fill unique countries by different colours
+    geom_point(aes(colour=country)) + # fill unique countries by different colours
+  labs(caption = "Figure 2. Re-ordered scatterplot of European country vs population in  2007")
 ```
 <br/>
 
@@ -185,7 +187,8 @@ gm_Europe_2007 %>%
     coord_flip() + # flip country into y-axis, pop to x-axis 
     theme_bw() + # give the graph a white background
     labs(x = "Population", y = "Country", # add labels
-        title = "Barchart by Increasing Population by European Countries")
+        title = "Barchart by Increasing Population by European Countries",
+      caption = "Figure 3. Bar chart for increasing population of European countries in 2007")
 ```
 <br/>
 
@@ -204,7 +207,8 @@ gm_Europe_2007 %>%
     coord_flip() + # flip country into y-axis, pop to x-axis
     theme_bw() + # give the graph a white background
     labs(x = "Population", y = "Country", # add labels
-        title = "Barchart for Population with France as First Observation")
+        title = "Barchart for Population with France as First Observation",
+        caption = "Figure 4. Barchart of France population vs other European populations")
 ```
 <br/>
 
@@ -271,7 +275,7 @@ For this part, I will take the **scatterplot from Figure 2** and add labels, tit
 
 ### Cleaning up Figure 2
 
-```{r, Figure 5, fig.height = 10, fig.width = 10}
+```{r, Figure 5. Increasing Population of European Countries in 2007, fig.height = 10, fig.width = 10}
 # Create point plot with lowest to highest population in Europe, 2007
 gm_Europe_2007 %>%
     mutate(country = fct_reorder(country, pop)) %>% 
@@ -281,7 +285,8 @@ gm_Europe_2007 %>%
     theme_bw() + # give the graph a white background
     labs(x = "Population", y = "Country", # add labels
         title = "Scatterplot of Increase Population for European Countries, in 2007",
-        color='Legend: Country') +
+        color='Legend: Country',
+        caption = "Figure 5. Increasing Population of European Countries in 2007") +
     theme(legend.position="bottom")  # put legend to bottom  
 
 ```
@@ -290,7 +295,7 @@ gm_Europe_2007 %>%
 
 Since the Figure 2 plot cannot be processed by plotly, I will create a separate scatterplot detailing GDP per capita and life expectancy, with population as a reference (legend). The resulting scatter will be broken in continents via *facet_wrap()*, before being put into a plotly object. The data will be based on the gapminder dataset - all countries, excluding Oceania countries.
 
-```{r, Figure 6. Scatterplot of Life Expectancy (in Years) vs. GDP per capita, by Continent, , warning = FALSE, message = FALSE}
+```{r, Figure 6. Scatterplot of Life Expectancy (in Years) vs. GDP per capita, by Continent, warning = FALSE, message = FALSE}
 library(scales) # For scale functions below
 
 plotly_prep <- ggplot(gm_filter_O, aes(gdpPercap, lifeExp)) + 
@@ -306,7 +311,8 @@ plotly_prep <- ggplot(gm_filter_O, aes(gdpPercap, lifeExp)) +
       theme_bw() + # give the graph a white background
       labs(x = "GDP per Capita", y = "Life Expectancy (in Years)", 
       title = "Life Expectancy vs. GDP per capita, by Continent",
-      color='Population') + # add labels to axis, title, legend
+      color='Population',
+      caption = "Figure 6. Life Expectancy (in Years) vs. GDP per capita, by Continent") + # add labels to axis, title, legend
       theme(strip.background = element_rect(fill = "yellow"),
           legend.position = "none") # title header bg color, leave out legend
        

@@ -227,7 +227,8 @@ give a visual plot of the population for each country.
         geom_point(aes(colour=country)) + # fill unique countries by different colours 
         theme_bw() + # give the graph a white background
         labs(x = "Population", y = "Country", # add labels
-            title = "Scatterplot for Population by European Countries, in 2007")
+            title = "Scatterplot for Population by European Countries, in 2007",
+            caption = "Figure 1. Scatterplot of European country vs population in 2007")
 
 ![](hw-05_gapminder_files/figure-markdown_strict/Figure%201.%20Scatterplot%20of%20European%20country%20vs%20population%20in%202007-1.png)
 <br/>
@@ -247,7 +248,8 @@ legend, etc)**
     gm_Europe_2007 %>%
         mutate(country = fct_reorder(country, pop)) %>% # points are from lowest to highest pop
         ggplot(aes(pop, country)) + 
-        geom_point(aes(colour=country)) # fill unique countries by different colours
+        geom_point(aes(colour=country)) + # fill unique countries by different colours
+      labs(caption = "Figure 2. Re-ordered scatterplot of European country vs population in  2007")
 
 ![](hw-05_gapminder_files/figure-markdown_strict/Figure%202.%20Re-ordered%20scatterplot%20of%20European%20country%20vs%20population%20in%202007-1.png)
 <br/>
@@ -265,7 +267,8 @@ population to highest,
         coord_flip() + # flip country into y-axis, pop to x-axis 
         theme_bw() + # give the graph a white background
         labs(x = "Population", y = "Country", # add labels
-            title = "Barchart by Increasing Population by European Countries")
+            title = "Barchart by Increasing Population by European Countries",
+          caption = "Figure 3. Bar chart for increasing population of European countries in 2007")
 
 ![](hw-05_gapminder_files/figure-markdown_strict/Figure%203.%20Bar%20chart%20for%20increasing%20population%20of%20European%20countries%20in%202007-1.png)
 <br/>
@@ -288,7 +291,8 @@ comparison. We will present this in a horizontal bar chart
         coord_flip() + # flip country into y-axis, pop to x-axis
         theme_bw() + # give the graph a white background
         labs(x = "Population", y = "Country", # add labels
-            title = "Barchart for Population with France as First Observation")
+            title = "Barchart for Population with France as First Observation",
+            caption = "Figure 4. Barchart of France population vs other European populations")
 
 ![](hw-05_gapminder_files/figure-markdown_strict/Figure%204.%20Barchart%20of%20France%20population%20vs%20other%20European%20populations-1.png)
 <br/>
@@ -1039,10 +1043,11 @@ give it a cleaner and more presentable look.
         theme_bw() + # give the graph a white background
         labs(x = "Population", y = "Country", # add labels
             title = "Scatterplot of Increase Population for European Countries, in 2007",
-            color='Legend: Country') +
+            color='Legend: Country',
+            caption = "Figure 5. Increasing Population of European Countries in 2007") +
         theme(legend.position="bottom")  # put legend to bottom  
 
-![](hw-05_gapminder_files/figure-markdown_strict/Figure%205-1.png)
+![](hw-05_gapminder_files/figure-markdown_strict/Figure%205.%20Increasing%20Population%20of%20European%20Countries%20in%202007-1.png)
 
 ### Plotly
 
@@ -1068,13 +1073,14 @@ excluding Oceania countries.
           theme_bw() + # give the graph a white background
           labs(x = "GDP per Capita", y = "Life Expectancy (in Years)", 
           title = "Life Expectancy vs. GDP per capita, by Continent",
-          color='Population') + # add labels to axis, title, legend
+          color='Population',
+          caption = "Figure 6. Life Expectancy (in Years) vs. GDP per capita, by Continent") + # add labels to axis, title, legend
           theme(strip.background = element_rect(fill = "yellow"),
               legend.position = "none") # title header bg color, leave out legend
            
     print(plotly_prep)
 
-![](hw-05_gapminder_files/figure-markdown_strict/Figure%206.%20Scatterplot%20of%20Life%20Expectancy%20(in%20Years)%20vs.%20GDP%20per%20capita,%20by%20Continent,%20-1.png)
+![](hw-05_gapminder_files/figure-markdown_strict/Figure%206.%20Scatterplot%20of%20Life%20Expectancy%20(in%20Years)%20vs.%20GDP%20per%20capita,%20by%20Continent-1.png)
 <br/>
 
 Lastly, we will run a scatterplot for all countries into one through the
