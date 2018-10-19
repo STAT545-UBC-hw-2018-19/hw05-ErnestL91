@@ -1,7 +1,7 @@
 ---
 title: "STAT545 HW-05"
 author: "Ernest Lai"
-output: html_document
+output: md_document
 ---
 
 ## R Markdown
@@ -319,7 +319,7 @@ Lastly, we will run a scatterplot for all countries into one through the *plotly
 
 ```{r Figure 7. Plotly of Life Expectancy (in Years) vs. GDP per capita, warning = FALSE, message = FALSE}
 library(plotly)
-ggplotly(plotly_prep) # if you're using .md, please see .html file for the plotly plot
+# ggplotly(plotly_prep) if you're using .md, please see .html file for the plotly plot
 
 # Could not find a way to remove the overlay of x-axis and y-axis on the axis units
 ```
