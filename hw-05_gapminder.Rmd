@@ -158,7 +158,7 @@ gm_Europe_2007 %>%
     theme_bw() + # give the graph a white background
     labs(x = "Population", y = "Country", # add labels
         title = "Scatterplot for Population by European Countries, in 2007",
-        caption = "Figure 1. Scatterplot of European country vs population in 2007")
+        caption = "Figure 1. Scatterplot of European country vs population")
 
 ```
 <br/>
@@ -173,7 +173,7 @@ gm_Europe_2007 %>%
     mutate(country = fct_reorder(country, pop)) %>% # points are from lowest to highest pop
     ggplot(aes(pop, country)) + 
     geom_point(aes(colour=country)) + # fill unique countries by different colours
-  labs(caption = "Figure 2. Re-ordered scatterplot of European country vs population in  2007")
+  labs(caption = "Figure 2. Scatter ordered by increasing population")
 ```
 <br/>
 
@@ -188,7 +188,7 @@ gm_Europe_2007 %>%
     theme_bw() + # give the graph a white background
     labs(x = "Population", y = "Country", # add labels
         title = "Barchart by Increasing Population by European Countries",
-      caption = "Figure 3. Bar chart for increasing population of European countries in 2007")
+      caption = "Figure 3. Bar chart: Ordered by increasing population")
 ```
 <br/>
 
@@ -208,7 +208,7 @@ gm_Europe_2007 %>%
     theme_bw() + # give the graph a white background
     labs(x = "Population", y = "Country", # add labels
         title = "Barchart for Population with France as First Observation",
-        caption = "Figure 4. Barchart of France population vs other European populations")
+        caption = "Figure 4. Bar chart: France vs other European populations")
 ```
 <br/>
 
@@ -324,7 +324,7 @@ Lastly, we will run a scatterplot for all countries into one through the *plotly
 
 ```{r Figure 7. Plotly of Life Expectancy (in Years) vs. GDP per capita, warning = FALSE, message = FALSE}
 library(plotly)
-# ggplotly(plotly_prep) if you're using .md, please see .html file for the plotly plot
+# ggplotly(plotly_prep) view .html file for image - ggplotly does not render on github .md
 
 # Could not find a way to remove the overlay of x-axis and y-axis on the axis units
 ```

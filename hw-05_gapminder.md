@@ -228,7 +228,7 @@ give a visual plot of the population for each country.
         theme_bw() + # give the graph a white background
         labs(x = "Population", y = "Country", # add labels
             title = "Scatterplot for Population by European Countries, in 2007",
-            caption = "Figure 1. Scatterplot of European country vs population in 2007")
+            caption = "Figure 1. Scatterplot of European country vs population")
 
 ![](hw-05_gapminder_files/figure-markdown_strict/Figure%201.%20Scatterplot%20of%20European%20country%20vs%20population%20in%202007-1.png)
 <br/>
@@ -249,7 +249,7 @@ legend, etc)**
         mutate(country = fct_reorder(country, pop)) %>% # points are from lowest to highest pop
         ggplot(aes(pop, country)) + 
         geom_point(aes(colour=country)) + # fill unique countries by different colours
-      labs(caption = "Figure 2. Re-ordered scatterplot of European country vs population in  2007")
+      labs(caption = "Figure 2. Scatter ordered by increasing population")
 
 ![](hw-05_gapminder_files/figure-markdown_strict/Figure%202.%20Re-ordered%20scatterplot%20of%20European%20country%20vs%20population%20in%202007-1.png)
 <br/>
@@ -268,7 +268,7 @@ population to highest,
         theme_bw() + # give the graph a white background
         labs(x = "Population", y = "Country", # add labels
             title = "Barchart by Increasing Population by European Countries",
-          caption = "Figure 3. Bar chart for increasing population of European countries in 2007")
+          caption = "Figure 3. Bar chart: Ordered by increasing population")
 
 ![](hw-05_gapminder_files/figure-markdown_strict/Figure%203.%20Bar%20chart%20for%20increasing%20population%20of%20European%20countries%20in%202007-1.png)
 <br/>
@@ -292,7 +292,7 @@ comparison. We will present this in a horizontal bar chart
         theme_bw() + # give the graph a white background
         labs(x = "Population", y = "Country", # add labels
             title = "Barchart for Population with France as First Observation",
-            caption = "Figure 4. Barchart of France population vs other European populations")
+            caption = "Figure 4. Bar chart: France vs other European populations")
 
 ![](hw-05_gapminder_files/figure-markdown_strict/Figure%204.%20Barchart%20of%20France%20population%20vs%20other%20European%20populations-1.png)
 <br/>
@@ -1088,7 +1088,7 @@ Lastly, we will run a scatterplot for all countries into one through the
 through a plotly object.
 
     library(plotly)
-    # ggplotly(plotly_prep) if you're using .md, please see .html file for the plotly plot
+    # ggplotly(plotly_prep) view .html file for image - ggplotly does not render on github .md
 
     # Could not find a way to remove the overlay of x-axis and y-axis on the axis units
 
