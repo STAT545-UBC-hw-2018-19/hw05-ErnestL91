@@ -1,0 +1,362 @@
+---
+title: "STAT545 HW-05"
+author: "Ernest Lai"
+output: html_document
+---
+
+## R Markdown
+
+This is the R Markdown document for hw-05, which focusses on factor and figure management exercises from the [**gapminder**](https://www.google.ca/search?q=gapminder+R&rlz=1C1GGRV_enCA753CA753&oq=gapminder+R&aqs=chrome..69i57j69i60j0j69i60l2j0.1349j0j7&sourceid=chrome&ie=UTF-8) dataset. 
+<br/>
+
+**Here are the goals of the assignment:**
+
+* Reorder a factor in a principled way based on the data and demonstrate the effect in arranged data and in figures.
+* Write some data to file and load it back into R.
+* Improve a figure (or make one from scratch), using new knowledge, e.g., control the color scheme, use factor levels, smoother mechanics.
+* Make a plotly visual.
+* Implement visualization design principles.
+
+*For more information and details on the assignment, please click [**here**](http://stat545.com/Classroom/assignments/hw05/hw05.html).*
+<br/>
+
+**This report will be broken down into four parts:**
+
+1) Factor Management
+2) File Import/Export
+3) Visualization Design
+4) Writing Figures to File
+<br/>
+
+
+For simple reshaping, gather() and spread() from [*tidyr*](https://tidyr.tidyverse.org/) - to help a more tidier dataset. For data joining, there are two data sources and info from both datasets are needed - hence a multitude of join prompts will be used to  c ombine info from both datasets into a single new object.
+
+All of the functions used for the data reshaping and data join will be available under the [*tidyverse*](https://www.tidyverse.org/packages/) package. For full information about hw-04, please visit [here](http://stat545.com/Classroom/assignments/hw04/hw04.html).
+
+<br/>
+
+## Open the tidyverse and gapminder Package
+
+As usual, we will begin with loading the packages needed for the analysis (tidyverse for functions and gapminder as the dataset of interest). If these packages are being used for the first time on your R-Studio client, then the packages will need to be installed first prior to being loaded.
+
+```{r tidyverse and gapminder, warning = FALSE, message = FALSE}
+# This report will use the follow packages, please install the packages to load them later on into the report
+
+# install.packages('tidyverse')
+# install.packages('gapminder')
+# install.packages('readr')
+# install.packages('scales')
+# install.packages('plotly')
+# install.packages('svglite')
+
+# Load tidyverse and gapminder
+library(tidyverse)
+library(gapminder)
+```
+<br/>
+
+## Part 1: Factor Management
+
+For this section, the focus is to **drop Oceania** and **reorder the levels of *continent*.**
+
+### Drop Oceania
+
+For this sub-section, the focus will be to:
+
+1) Filter the Gapminder data to remove observations associated with the continent of Oceania.
+2) Remove unused factor levels. 
+3) Provide concrete information on the data before and after removing these rows and Oceania and addressing the number of rows and the levels of the affected factors.
+<br/>
+
+First we will assign the original gapminder data to an object (*gm_orig*) and assign to a new object after filtering all observations involving Oceania (*gm_filter_O*)
+
+```{r, remove Oceania}
+gm_orig <- gapminder # assign original gapminder dataset to an object
+
+gm_filter_O <- gm_orig %>% # filter out Oceania continent observations into gm_filter_O
+    filter(continent %in% c("Americas", "Africa", "Asia", "Europe"))
+
+# Lets view the structure of our dataset from the original gapminder data set and the dataset with Oceania observations filtered out:
+
+str(gm_orig)
+str(gm_filter_O)
+
+```
+<br/>
+
+As observed, filtering observations involving Oceania meant we lost 24 observations. Even though we filtered out the observations involving Oceania gm_orig, the structure of continent in both datasets still show all levels (5 continents in total). This is also true for country, where we still have all 142 levels/unique contries.  
+
+Levels don't always have to be present in the factor or observed in the dataset. So even though we lost 24 observations because we filtered out observations involving Oceania, we need to drop the unused factor level "Oceania" as well.
+
+There is two ways to go about this, we can either drop all unused factor levels through *droplevels()* or drop unused factors for specific variables via *fct_drop()*.
+
+```{r, drop Oceania factor}
+gm_filter_O %>% 
+    droplevels() %>% # drop all unused factors 
+    str()
+
+gm_filter_O%>% 
+    mutate(continent = fct_drop(continent)) %>% # only drop unused factors in continent
+    str()
+
+```
+<br/>
+
+The *droplevels()* function removed all unused factors in country and continent - the only two factor type variables in the gapminder dataset hence we only have 140 unique countries and 4 continents. From droplevels, we found out that there were two countries under the Oceania region. The *fct_drop()* function focussed primarily on dropping unused factors in continents, hence we have 4 continents but countries the same - with 142 countries, as we did not drop unused Oceania countries in this scenario.
+
+Here is a summary for the number of rows and levels of affected factors before and after filtering the dataset.
+
+**Original gapminder dataset:**
+
+* country: 142 factors / unique countries
+* continent: 5 factors / unique continents (Africa, Americas, Asia, Europe, Oceania)
+* 1704 total observations
+
+**Gapminder dataset with Oceania filtered out:**
+
+* country: 142 factors / unique countries
+* continent: 5 factors / unique continents (Africa, Americas, Asia, Europe, Oceania)
+* **1680 total observations**
+
+**Unused factor levels with drop_levels():**
+
+* country: **140 factors / unique countries (countries under Oceania removed)**
+* continent: **4 factors / unique continents (Oceania removed)**
+* 1680 total observations
+
+**Unused factor levels with fct_drop(continent):**
+
+* country: 142 factors / unique countries (only dropped unused factor levels under continent)
+* continent: **4 factors / unique continents (Oceania removed)**
+* 1680 total observations
+
+### Reorder the Levels of continent
+
+**For this section, I will focus the data primarily on countries from Europe in 2007**
+
+For this section, we are tasked with using the *forcats* package to change the order of the factor levels, based on a summary of one of the quantitative variables. 
+
+
+```{r, filter to Europe}
+# Filter gapminder to include only observations on countries from Europe and then drop all unused factors from country and continent
+gm_Europe_2007 <- gapminder %>%
+     filter(continent %in% c("Europe"), year == "2007") %>%
+     droplevels() # drops all factors not pertaining to Europe
+
+nlevels(gm_Europe_2007$country) # Number of factors / unique countries in Europe.
+```
+
+After filtering our dataset to include only European countries, we found ourselves with 30 unique countries.
+
+Let's say I am interested in the population of each country in our gapminder Europe dataset, we can do our usual ggplot with geom_point to give a visual plot of the population for each country.
+
+```{r, Figure 1. Scatterplot of European country vs population in 2007}
+# Create point plot with the population of each country in Europe, 2007
+gm_Europe_2007 %>% 
+    ggplot(aes(pop, country)) +
+    geom_point(aes(colour=country)) + # fill unique countries by different colours 
+    theme_bw() + # give the graph a white background
+    labs(x = "Population", y = "Country", # add labels
+        title = "Scatterplot for Population by European Countries, in 2007")
+
+```
+<br/>
+
+Now this graph looks very uninformative, as the points are all over the place. R is programmed by default to plot the points by alphabetical order for our variable of interest (country). To rectify this problem, we can try to change our plot to order from lowest population to highest population. 
+
+**The plots produced in this section (Figure 2) will be raw, without much edits - Part 3: Visualization Design will add more detail to this plot (heading, background, axis labels, fig.height, fig.width, and legend, etc)**
+
+```{r, Figure 2. Re-ordered scatterplot of European country vs population in 2007}
+# Create point plot with lowest to highest population in Europe, 2007
+gm_Europe_2007 %>%
+    mutate(country = fct_reorder(country, pop)) %>% # points are from lowest to highest pop
+    ggplot(aes(pop, country)) + 
+    geom_point(aes(colour=country)) # fill unique countries by different colours
+```
+<br/>
+
+This looks much better, and it allows us to follow countries with increasing population. At the same time, we can quickly spot out countries with the lowest/highest populations. To make it even easier to read, we can do a horizontal bar chart listing populations from lowest population to highest,
+
+```{r, Figure  3. Re-ordered bar chart of European country vs population in 2007}
+# Create bar chart with lowest to highest population in Europe, 2007
+gm_Europe_2007 %>%
+    mutate(country = fct_reorder(country, pop)) %>% # bars are from lowest to highest pop
+    ggplot(aes(country,pop)) + 
+    geom_bar(aes(fill=country),  stat="identity") + # fill countries by different colours
+    coord_flip() + # flip country into y-axis, pop to x-axis 
+    theme_bw() + # give the graph a white background
+    labs(x = "Population", y = "Country", # add labels
+        title = "Barchart by Increasing Population by European Countries")
+```
+<br/>
+
+Now lets say we are interested in France in particular, and want to compare this to the rest of the data. We can re-order our factor to include France as the first observation in the bottom for our visual plot - followed by the rest of the countries, giving us a visual comparison. We will present this in a horizontal bar chart
+
+```{r, Figure 4. Barchart of France population vs other European populations}
+gm_France <- gm_Europe_2007$country %>% 
+  fct_relevel("France") # put France as first factor in country variable
+
+gm_Europe_2007$country <- gm_France # store the new order of factors into main dataset
+
+# Create bar chart with France as the first observation on the bottom, 2007
+gm_Europe_2007 %>%
+    ggplot(aes(country,pop)) + 
+    geom_bar(aes(fill=country),  stat="identity") + # fill countries by different colours
+    coord_flip() + # flip country into y-axis, pop to x-axis
+    theme_bw() + # give the graph a white background
+    labs(x = "Population", y = "Country", # add labels
+        title = "Barchart for Population with France as First Observation")
+```
+<br/>
+
+## Part 2: File Import/Export
+
+For the file import and export section, I will experiment with the *write_csv()/read_csv()*vand *saveRDS()/readRDS()* function. The idea is to experiment with changing the format of our 2007 European gapminder dataset, such as changing the order of how the information is displayed for variables, and saving it + loading it into R-Studio to see if the format remains.
+
+### write_csv()/read_csv()
+
+The European 2007 gapminder dataset is ordered by countries in alphabetical order. For this sub-section, I will arrange the dataset by increasing life expectancy.
+
+```{r, rearrange gm_Europe_2007 by lifeExp - write_csv/read_csv()}
+library(readr) # load read_csv and write_csv
+
+# Arrange the 2007 European dataset by life expectancy (lowest to highest)
+gm_reorder_write <- gm_Europe_2007 %>%
+    arrange(lifeExp) 
+
+gm_reorder_write %>%
+knitr::kable(caption = "This table summarizes gapminder European countries in 2007, ordered by increasing life expectancy")
+    
+# save gm_reorder to project working directory
+write_csv(gm_reorder_write, "gm_reorder_write.csv", col_names = TRUE)
+
+# read gm_reorder to global environment and check if the countries are still listed by increasing life expectancy
+gm_reorder_read <- read_csv("gm_reorder_write.csv")
+
+gm_reorder_read %>%
+knitr::kable(caption = "This table summarizes gapminder European countries in 2007, ordered by increasing life expectancy")
+```
+<br/>
+
+As observed, the format of the re-ordered table (by increasing life expectancy) was maintained when we wrote and read the file back into our global environment.
+
+### saveRDS()/readRDS()
+
+Try the same procedure, but with *saveRDS()* and *readRDS()*
+
+```{r, gm_reorder - saveRDS()/readRDS()}
+
+gm_reorder_save <- gm_Europe_2007 %>%
+    arrange(lifeExp) 
+
+# head of the reordered table
+head(gm_reorder_save) %>%
+knitr::kable(caption = "This table summarizes gapminder European countries in 2007, ordered by increasing life expectancy")
+
+# save file to project directory via saveRDS
+saveRDS(gm_reorder_save, "gm_reorder_save.csv")
+
+# read file and look at the head of the reordered table again
+gm_reorder_RDS <- readRDS("gm_reorder_save.csv")
+
+head(gm_reorder_RDS) %>%
+knitr::kable(caption = "This table summarizes gapminder European countries in 2007, ordered by increasing life expectancy")
+```
+<br/>
+
+As observed, the *saveRDS()* and *readRDS()* function was also able to save and return the re-ordered 2007 European gapminder object in the same format.
+
+## Part 3: Visualization Design
+
+For this part, I will take the **scatterplot from Figure 2** and add labels, titles, better background use, better legend placement, etc to give it a cleaner and more presentable look. 
+
+### Cleaning up Figure 2
+
+```{r, Figure 5, fig.height = 10, fig.width = 10}
+# Create point plot with lowest to highest population in Europe, 2007
+gm_Europe_2007 %>%
+    mutate(country = fct_reorder(country, pop)) %>% 
+    ggplot(aes(pop, country)) + 
+    geom_point(aes(colour=country)) + 
+    scale_x_continuous(breaks = 0:8 * (10^7)) + # x-axis break every 10^7 unites
+    theme_bw() + # give the graph a white background
+    labs(x = "Population", y = "Country", # add labels
+        title = "Scatterplot of Increase Population for European Countries, in 2007",
+        color='Legend: Country') +
+    theme(legend.position="bottom")  # put legend to bottom  
+
+```
+
+### Plotly
+
+Since the Figure 2 plot cannot be processed by plotly, I will create a separate scatterplot detailing GDP per capita and life expectancy, with population as a reference (legend). The resulting scatter will be broken in continents via *facet_wrap()*, before being put into a plotly object. The data will be based on the gapminder dataset - all countries, excluding Oceania countries.
+
+```{r, Figure 6. Scatterplot of Life Expectancy (in Years) vs. GDP per capita, by Continent, , warning = FALSE, message = FALSE}
+library(scales) # For scale functions below
+
+plotly_prep <- ggplot(gm_filter_O, aes(gdpPercap, lifeExp)) + 
+      geom_point(aes(colour=pop), alpha=0.1) + # scatter of lifeExp and gdpPercap
+      scale_x_log10(labels=dollar_format()) + # change scale to natural log for linearity
+      scale_colour_viridis_c(
+        trans   = "log10", # log transformation of our data
+        breaks  = 10^(1:10), # x-axis breaks every 10^(1:10) units  
+        labels  = comma_format() # add commas to x-axis labels every 10^(1:10) units 
+      ) +
+      scale_y_continuous(breaks=10*(1:10)) + # y-axis breaks every 10 units
+      facet_wrap(~ continent) + # break into separate scatters by continent
+      theme_bw() + # give the graph a white background
+      labs(x = "GDP per Capita", y = "Life Expectancy (in Years)", 
+      title = "Life Expectancy vs. GDP per capita, by Continent",
+      color='Population') + # add labels to axis, title, legend
+      theme(strip.background = element_rect(fill = "yellow"),
+          legend.position = "none") # title header bg color, leave out legend
+       
+
+```
+<br/>
+
+Lastly, we will run a scatterplot for all countries into one through the *plotly* function and see what kind of new information we can achieve through a plotly object. 
+
+```{r Figure 7. Plotly of Life Expectancy (in Years) vs. GDP per capita, warning = FALSE, message = FALSE}
+library(plotly)
+ggplotly(plotly_prep) # if you're using .md, please see .html file for the plotly plot
+
+# Could not find a way to remove the overlay of x-axis and y-axis on the axis units
+```
+<br/>
+
+As we can see, the plotly function allows us to have light interaction with the plot. When we hover over the data points, it will give us its coordinates. The ggplot2 scatter only displays the points on the scatter. I had issues with the overlay of the x-axis with the axis units.
+
+
+## Part 4: Writing Figures to File
+
+For this section, I will be using the *ggsave()* function to save a ggplot into the project directory. The same plot will be saved on raster format (.jpg) and vector format (.svg)
+
+```{r, ggsave raster}
+# Save as raster image (jpg)
+ggsave("Figure 6 ggplot.jpg", plot = plotly_prep, units = "cm", height = 10, width = 12)
+
+```
+<br/>
+
+The file has been saved as a .jpg file, with a dimension of 12 cm by 10 cm. Sizing can be adjusted through height and width and depending on which unit measurement calibration you're interested in, there are other options such as inches ("in") or millimetre ("mm").
+
+Here is the code to save the ggplot as a .svg file.
+
+```{r, ggsave vector}
+# Save as raster image (jpg)
+library(svglite)
+ggsave("Figure 6 ggplot.svg", plot = plotly_prep, units = "cm", height = 10, width = 12)
+
+```
+
+Here  is the code to load the saved .jpg and .svg file:
+
+```
+![.jpg file loading](Figure 6 ggplot.jpg)
+![.svg file loading](Figure 6 ggplot.svg)
+```
+
+
+![jpg](Figure 6 ggplot.jpg)
+![.svg](Figure 6 ggplot.svg)
