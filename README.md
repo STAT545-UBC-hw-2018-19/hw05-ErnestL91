@@ -1,6 +1,6 @@
 # HW-05 by Ernest  Lai
 
-This repository contains the the project file, R-markdown file, github markdown file, html file, .csv excel files, .svg/.jpg image file for whole report, and the folder containing the images for the markdown file. For more details on the assignment, please click [**here**](http://stat545.com/Classroom/assignments/hw05/hw05.html). 
+This repository contains the the project file, R-markdown file, github markdown file, html file, .csv excel files, .svg/.jpg image files for the whole report, and the folder containing the images for the markdown file. For more details on the assignment, please click [**here**](http://stat545.com/Classroom/assignments/hw05/hw05.html). 
 
 **For plotly graph, please view the [.html version](https://ernestl91.github.io/HW-05/hw-05_gapminder.html) of the .Rmd file - this graphic cannot render on github .md**
 
